@@ -6,7 +6,7 @@ collected 100 items
 test_api.py FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF.FF [ 60%]
 FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF                                 [100%]
 
-======================== 99 failed, 1 passed in 11.68s =========================
+======================== 99 failed, 1 passed in 13.06s =========================
 ************* Module api
 marine_experiments/api.py:3:0: W0611: Unused datetime imported from datetime (unused-import)
 marine_experiments/api.py:5:0: W0611: Unused request imported from flask (unused-import)
