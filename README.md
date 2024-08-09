@@ -141,7 +141,7 @@ This parameter should accept only integer values in the range `0`-`100`. When a 
 
 A `DELETE` request to the `/experiment/<id>` endpoint should delete the details of a specific experiment.
 
-- If there is no experiment with that ID, the API should return a `404` with a JSON response object of the format `{"error": f"Unable to locate experiment with ID x."}`.
+- If there is no experiment with that ID, the API should return a `404` with a JSON response object of the format `
 - On successful deletion, the API should return a `200` response and an object containing the deleted item's ID and experiment date.
 - Dates should be expressed as strings in the `YYYY-MM-DD` format.
 
