@@ -42,7 +42,7 @@ class TestSubjectRoute_Task_1:
                    for d in data), "Wrong number of keys"
         for k in required_keys:
             assert all(k in d for d in data), f"Key ({k}) not found in data"
-    
+
     def test_returns_data_in_expected_order(self, test_api):
         """Checks that subjects are returned in descending order by DoB."""
 
@@ -119,9 +119,9 @@ class TestSubjectRoute_Task_1:
         data = res.json
 
         for subject in data:
-           dob = subject["date_of_birth"]
-           assert dob.count("-") == 2
-           assert datetime.strptime(dob, "%Y-%m-%d")
+            dob = subject["date_of_birth"]
+            assert dob.count("-") == 2
+            assert datetime.strptime(dob, "%Y-%m-%d")
 
 
 class TestExperimentGetRoute_Task_2:
@@ -166,7 +166,7 @@ class TestExperimentGetRoute_Task_2:
         data = res.json
 
         dates = [datetime.strptime(experiment["experiment_date"], "%Y-%m-%d").date()
-                for experiment in data]
+                 for experiment in data]
 
         for i in range(len(dates) - 1):
             assert dates[i] >= dates[i + 1], "Experiments out of order!"
@@ -195,7 +195,7 @@ class TestExperimentGetRoute_Task_2:
 
         scores = [(e["score"], float(e["score"][:-1]))
                   for e in data]
-        
+
         assert all([
             s[0].endswith("%")
             and 0 <= s[1] <= 100
@@ -243,6 +243,7 @@ class TestExperimentGetRoute_Task_2:
         assert isinstance(data, list)
         assert len(data) == total
 
+
 class TestExperimentRoute_Task_3:
     """Tests for the /experiment route with parameters."""
 
@@ -260,7 +261,8 @@ class TestExperimentRoute_Task_3:
         res = test_api.get(f"/experiment?score_over={filter_score}")
 
         assert res.status_code == 400
-        assert res.json == {"error": "Invalid value for 'score_over' parameter"}
+        assert res.json == {
+            "error": "Invalid value for 'score_over' parameter"}
 
     @pytest.mark.parametrize("filter_score,output", ((90, 2), (80, 4), (50, 7), (1, 10)))
     def test_returns_expected_data_when_score_is_filtered(self, filter_score, output, test_api):
@@ -395,14 +397,14 @@ class TestExperimentPostRoute_Task_5:
 
     def test_accepts_post_requests(self, test_api):
         """Checks that the route accepts POST requests."""
-        
+
         res = test_api.post("/experiment")
 
         assert res.status_code != 405
 
     def test_rejects_requests_without_subject_id(self, new_experiment, test_api):
         """Checks that the route rejects requests without a subject_id in the body."""
-        
+
         del new_experiment["subject_id"]
         res = test_api.post("/experiment", json=new_experiment)
 
@@ -413,7 +415,7 @@ class TestExperimentPostRoute_Task_5:
 
     def test_rejects_requests_without_experiment_type(self, new_experiment, test_api):
         """Checks that the route rejects requests without an experiment_type in the body."""
-        
+
         del new_experiment["experiment_type"]
         res = test_api.post("/experiment", json=new_experiment)
 
@@ -424,7 +426,7 @@ class TestExperimentPostRoute_Task_5:
 
     def test_rejects_requests_without_score(self, new_experiment, test_api):
         """Checks that the route rejects requests without a score in the body."""
-        
+
         del new_experiment["score"]
         res = test_api.post("/experiment", json=new_experiment)
 
@@ -450,27 +452,29 @@ class TestExperimentPostRoute_Task_5:
     def test_rejects_invalid_experiment_type(self, experiment_type,
                                              new_experiment, test_api):
         """Checks that the route rejects invalid experiment_type values."""
-        
+
         new_experiment["experiment_type"] = experiment_type
         res = test_api.post("/experiment", json=new_experiment)
 
         data = res.json
 
         assert res.status_code == 400
-        assert data == {"error": "Invalid value for 'experiment_type' parameter."}
+        assert data == {
+            "error": "Invalid value for 'experiment_type' parameter."}
 
     @pytest.mark.parametrize("experiment_type", ("Intelligence", "oBeDiEnCe", "aGGressioN"))
     def test_accepts_case_insensitive_experiment_types(self, experiment_type,
                                                        new_experiment, test_api):
         """Checks that the route accepts valid experiment_type values regardless of case."""
-        
+
         new_experiment["experiment_type"] = experiment_type
         res = test_api.post("/experiment", json=new_experiment)
 
         assert res.status_code == 201
 
     @pytest.mark.parametrize("experiment_type,score", (("Intelligence", 31), ("Obedience", 12),
-                                                       ("aggression", 11), ("Aggression", -1),
+                                                       ("aggression",
+                                                        11), ("Aggression", -1),
                                                        ("Intelligence", "three"),
                                                        ("Intelligence", 4.1)))
     def test_rejects_invalid_scores(self, experiment_type, score,
@@ -490,26 +494,26 @@ class TestExperimentPostRoute_Task_5:
     def test_rejects_invalid_experiment_date(self, experiment_date,
                                              new_experiment, test_api):
         """Checks that the route rejects invalid experiment_date values."""
-        
+
         new_experiment["experiment_date"] = experiment_date
         res = test_api.post("/experiment", json=new_experiment)
 
         data = res.json
 
         assert res.status_code == 400
-        assert data == {"error": "Invalid value for 'experiment_date' parameter."}
-
+        assert data == {
+            "error": "Invalid value for 'experiment_date' parameter."}
 
     def test_returns_201_on_success(self, new_experiment, test_api):
         """Checks that the route returns a 201 code on success."""
-        
+
         res = test_api.post("/experiment", json=new_experiment)
 
         assert res.status_code == 201
 
     def test_returns_data_with_expected_keys(self, new_experiment, test_api):
         """Checks that the correct keys are returned in the JSON response."""
-        
+
         new_experiment["subject_id"] = 4
         res = test_api.post("/experiment", json=new_experiment)
         data = res.json
@@ -520,14 +524,14 @@ class TestExperimentPostRoute_Task_5:
 
     def test_returns_data_with_expected_types_and_format(self, new_experiment, test_api):
         """Checks that the data returned in the JSON response has the correct types/format."""
-        
+
         new_experiment["subject_id"] = 1
         new_experiment["experiment_type"] = "aggression"
         new_experiment["score"] = 7
         res = test_api.post("/experiment", json=new_experiment)
         data = res.json
 
-        for k,v in data.items():
+        for k, v in data.items():
             if k != "experiment_date":
                 assert isinstance(v, int)
             else:
@@ -536,15 +540,15 @@ class TestExperimentPostRoute_Task_5:
 
     def test_returns_expected_data(self, new_experiment, test_api):
         """Checks that the route returns appropriate data on success."""
-        
+
         res = test_api.post("/experiment", json=new_experiment)
 
         assert res.json == {
-        "experiment_id": 11,
-        "subject_id": 3,
-        "experiment_type_id": 2,
-        "experiment_date": "2024-03-01",
-        "score": 7
+            "experiment_id": 11,
+            "subject_id": 3,
+            "experiment_type_id": 2,
+            "experiment_date": "2024-03-01",
+            "score": 7
         }
 
     @pytest.mark.parametrize("experiment_type,score", (("intelligenCe", 15),
@@ -557,7 +561,7 @@ class TestExperimentPostRoute_Task_5:
     def test_actually_stores_the_new_experiment(self, experiment_type, score,
                                                 new_experiment, test_api, test_temp_conn):
         """Checks that the new experiment is added to the database."""
-        
+
         del new_experiment["experiment_date"]
         new_experiment["experiment_type"] = experiment_type
         new_experiment["score"] = score
@@ -574,14 +578,14 @@ class TestExperimentPostRoute_Task_5:
 
     def test_defaults_to_current_date(self, new_experiment, test_api):
         """Checks that the experiment_date defaults to the current date if not provided."""
-        
+
         del new_experiment["experiment_date"]
         res = test_api.post("/experiment", json=new_experiment)
 
         assert res.json == {
-        "experiment_id": 11,
-        "subject_id": 3,
-        "experiment_type_id": 2,
-        "experiment_date": datetime.now().strftime("%Y-%m-%d"),
-        "score": 7
+            "experiment_id": 11,
+            "subject_id": 3,
+            "experiment_type_id": 2,
+            "experiment_date": datetime.now().strftime("%Y-%m-%d"),
+            "score": 7
         }
