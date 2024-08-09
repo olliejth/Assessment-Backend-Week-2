@@ -1,0 +1,19 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.4, pytest-8.3.2, pluggy-1.5.0
+rootdir: /home/runner/work/Assessment-Backend-Week-2/Assessment-Backend-Week-2/marine_experiments
+collected 100 items
+
+test_api.py FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF.FF [ 60%]
+FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF                                 [100%]
+
+======================== 99 failed, 1 passed in 11.68s =========================
+************* Module api
+marine_experiments/api.py:3:0: W0611: Unused datetime imported from datetime (unused-import)
+marine_experiments/api.py:5:0: W0611: Unused request imported from flask (unused-import)
+marine_experiments/api.py:6:0: W0611: Unused sql imported from psycopg2 (unused-import)
+************* Module database_functions
+marine_experiments/database_functions.py:16:0: C0304: Final newline missing (missing-final-newline)
+
+------------------------------------------------------------------
+Your code has been rated at 7.89/10 (previous run: 7.89/10, +0.00)
+
